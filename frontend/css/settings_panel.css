@@ -1,0 +1,235 @@
+#settings-btn {
+  background: none;
+  border: none;
+  color: var(--fg-dim);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 8px 12px;
+  line-height: 1;
+  opacity: 0.65;
+  transition: opacity 0.2s;
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
+  border-radius: 6px;
+}
+#settings-btn:hover,
+#settings-btn:active { opacity: 1; background: rgba(255,255,255,0.07); }
+
+#settings-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+}
+#settings-overlay.open { display: flex; }
+
+#settings-panel {
+  background: var(--bar-bg, #111);
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 28px 32px;
+  min-width: 320px;
+  max-width: 460px;
+  width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  color: var(--fg, #eee);
+  font-family: var(--font-mono);
+}
+
+/* GPIO accordion cards */
+.gpio-card { margin-bottom: 6px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+
+.gpio-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  cursor: pointer;
+  background: rgba(255,255,255,0.04);
+  user-select: none;
+  touch-action: manipulation;
+  gap: 8px;
+  min-height: 48px;
+}
+.gpio-card-header:hover { background: rgba(255,255,255,0.08); }
+
+.gpio-card-title {
+  flex: 1;
+  font-size: 13px;
+  font-family: var(--font-mono);
+  color: #e0e0e0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.gpio-card-sub {
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  white-space: nowrap;
+}
+.gpio-card-chevron {
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.gpio-card.open .gpio-card-chevron { transform: rotate(180deg); }
+
+.gpio-card-body {
+  display: none;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.02);
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+.gpio-card.open .gpio-card-body { display: block; }
+
+.gpio-field-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.gpio-field-row label {
+  width: 70px;
+  flex-shrink: 0;
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+#settings-panel h2 {
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--fg-dim, #888);
+  margin-bottom: 24px;
+  text-transform: uppercase;
+}
+
+.settings-section {
+  margin-bottom: 24px;
+}
+
+.settings-section h3 {
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--fg-dim, #888);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.settings-row input[type="number"] {
+  flex: 1;
+  background: #1a1a1a;
+  border: 1px solid #444;
+  border-radius: 5px;
+  color: var(--fg, #eee);
+  font-family: var(--font-mono);
+  font-size: 18px;
+  padding: 8px 10px;
+  outline: none;
+  min-width: 0;
+}
+.settings-row input[type="number"]:focus { border-color: #888; }
+
+.settings-row .unit-label {
+  font-size: 12px;
+  color: var(--fg-dim, #888);
+  white-space: nowrap;
+}
+
+.settings-value {
+  font-size: 22px;
+  letter-spacing: 1px;
+  flex: 1;
+}
+
+.btn-set {
+  background: #2a2a2a;
+  border: 1px solid #555;
+  border-radius: 5px;
+  color: var(--fg, #eee);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 1px;
+  padding: 8px 16px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background 0.15s;
+}
+.btn-set:hover  { background: #3a3a3a; }
+.btn-set:active { background: #4a4a4a; }
+
+.btn-reset {
+  background: none;
+  border: 1px solid #ef5350;
+  border-radius: 5px;
+  color: #ef5350;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 1px;
+  padding: 8px 16px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background 0.15s;
+}
+.btn-reset:hover  { background: rgba(239,83,80,0.12); }
+
+.btn-close {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  background: none;
+  border: 1px solid #444;
+  border-radius: 5px;
+  color: var(--fg-dim, #888);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 1px;
+  padding: 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background 0.15s;
+}
+.btn-close:hover { background: #1a1a1a; }
+
+.settings-feedback {
+  font-size: 11px;
+  color: #00e676;
+  min-height: 16px;
+  margin-top: 6px;
+  text-align: right;
+}
+
+.btn-unit-toggle {
+  background: #1a1a2a;
+  border: 1px solid #555;
+  border-radius: 5px;
+  color: #00bcd4;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 12px;
+  cursor: pointer;
+  min-width: 44px;
+  min-height: 40px;
+  touch-action: manipulation;
+  transition: background 0.15s;
+}
+.btn-unit-toggle:hover { background: rgba(0,188,212,0.12); border-color: #00bcd4; }

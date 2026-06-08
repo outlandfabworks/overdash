@@ -1,0 +1,62 @@
+
+(rules PCB pi-dash-input-hat.dsn
+  (snap_angle 
+    fortyfive_degree
+  )
+  (rule
+    (width 250.0)
+    (clearance 200.0)
+    (clearance 125.0 (type smd_to_turn_gap))
+    (clearance 50.0 (type smd))
+    (clearance 200.0 (type "kicad_default"))
+  )
+  (padstack "Via[0-1]_800:400_um"
+    (shape
+      (circle F.Cu 800.0 0.0 0.0)
+    )
+    (shape
+      (circle B.Cu 800.0 0.0 0.0)
+    )
+    (attach off)
+  )
+  (via 
+    "Via[0-1]_800:400_um" "Via[0-1]_800:400_um" default
+  )
+  (via 
+    "Via[0-1]_800:400_um-kicad_default" "Via[0-1]_800:400_um" "kicad_default"
+  )
+  (via_rule
+    default "Via[0-1]_800:400_um"
+  )
+  (via_rule
+    "kicad_default" "Via[0-1]_800:400_um-kicad_default"
+  )
+  (class default
+    (clearance_class default)
+    (via_rule default)
+    (rule
+      (width 250.0)
+    )
+    (circuit 
+      (use_layer F.Cu B.Cu)
+    )
+  )
+  (class "kicad_default"
+    GND "GND_CAR" +3V3 "IN1_LT" "IN2_RT" "IN3_HB" "IN4_PK" "IN5_HZ"
+    "IN6_RV" "IN7_IL" "IN8_SP" GPIO4 GPIO5 GPIO6 GPIO13 GPIO17
+    GPIO19 GPIO22 GPIO27 "CH1_MID" "CH2_MID" "CH3_MID" "CH4_MID" "CH5_MID"
+    "CH6_MID" "CH7_MID" "CH8_MID" "CH1_LED" "CH2_LED" "CH3_LED" "CH4_LED" "CH5_LED"
+    "CH6_LED" "CH7_LED" "CH8_LED" +5V GPIO2 GPIO3 GPIO14 GPIO15
+    GPIO18 GPIO23 GPIO24 GPIO10 GPIO9 GPIO25 GPIO11 GPIO8
+    GPIO7 GPIO0 GPIO1 GPIO12 GPIO16 GPIO26 GPIO20 GPIO21
+    "12V_BATT" "12V_CLEAN" "VIN_BUCK" "SW_NODE" "LED_PWR"
+    (clearance_class "kicad_default")
+    (via_rule "kicad_default")
+    (rule
+      (width 250.0)
+    )
+    (circuit 
+      (use_layer F.Cu B.Cu)
+    )
+  )
+)

@@ -1,0 +1,35 @@
+# Mock / simulation config — no hardware required.
+# All sources use simulate: true to generate realistic fake data.
+# Use this for development, UI testing, and demos.
+
+server:
+  host: "0.0.0.0"
+  port: 8765
+  http_port: 8080
+  broadcast_hz: 30
+
+sources:
+  - type: mock_vehicle
+    name: "Mock"
+
+  # Uncomment to also simulate GPIO inputs toggling:
+  # - type: gpio_inputs
+  #   name: "Input HAT"
+  #   simulate: true
+
+  # Uncomment to simulate a GPS feed:
+  # - type: gps_nmea
+  #   name: "GPS"
+  #   simulate: true
+
+  # Uncomment to simulate analog sensor channels:
+  # - type: analog_adc
+  #   name: "Analog Sensors"
+  #   simulate: true
+  #   channels:
+  #     - channel: 0
+  #       signal: wideband_lambda
+  #       unit: λ
+  #       value_min: 0.68
+  #       value_max: 1.36
+  #       decimals: 3

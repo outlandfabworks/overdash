@@ -1,0 +1,308 @@
+{
+  "meta": {
+    "name": "TDI Discovery — Default",
+    "theme": "dark",
+    "font": "monospace"
+  },
+  "grid": {
+    "columns": 12,
+    "rows": 8,
+    "gap_px": 8
+  },
+  "gauges": [
+    {
+      "id": "warning_lights",
+      "type": "lights",
+      "signal": "",
+      "grid": { "col": 0, "row": 0, "colspan": 12, "rowspan": 1 },
+      "config": {
+        "lights": [
+          {
+            "id": "left_turn",
+            "label": "◄",
+            "signal": "left_turn",
+            "trigger": "above",
+            "threshold": 0,
+            "color": "#ffd600"
+          },
+          {
+            "id": "right_turn",
+            "label": "►",
+            "signal": "right_turn",
+            "trigger": "above",
+            "threshold": 0,
+            "color": "#ffd600"
+          },
+          {
+            "id": "high_beam",
+            "label": "HIGH",
+            "signal": "high_beam",
+            "trigger": "above",
+            "threshold": 0,
+            "color": "#90caf9"
+          },
+          {
+            "id": "reverse",
+            "label": "REV",
+            "signal": "reverse",
+            "trigger": "above",
+            "threshold": 0,
+            "color": "#ffffff"
+          },
+          {
+            "id": "mil",
+            "label": "MIL",
+            "signal": "dtc_mil",
+            "color": "#ffa726"
+          },
+          {
+            "id": "glow",
+            "label": "GLOW",
+            "signal": "dtc_P_active",
+            "color": "#ffd600"
+          },
+          {
+            "id": "oil",
+            "label": "OIL",
+            "signal": "oil_pressure",
+            "trigger": "below",
+            "threshold": 69,
+            "color": "#ef5350"
+          },
+          {
+            "id": "coolant",
+            "label": "TEMP",
+            "signal": "coolant_temp",
+            "trigger": "above",
+            "threshold": 108,
+            "color": "#ef5350"
+          },
+          {
+            "id": "abs",
+            "label": "ABS",
+            "signal": "dtc_C_active",
+            "color": "#ffa726"
+          },
+          {
+            "id": "trans",
+            "label": "TRANS",
+            "signal": "trans_temp",
+            "trigger": "above",
+            "threshold": 115,
+            "color": "#ef5350"
+          },
+          {
+            "id": "battery",
+            "label": "BATT",
+            "signal": "battery_voltage",
+            "trigger": "below",
+            "threshold": 11.8,
+            "color": "#ffa726"
+          },
+          {
+            "id": "body",
+            "label": "BODY",
+            "signal": "dtc_B_active",
+            "color": "#ce93d8"
+          },
+          {
+            "id": "network",
+            "label": "NET",
+            "signal": "dtc_U_active",
+            "color": "#ef9a9a"
+          },
+          {
+            "id": "boost_warn",
+            "label": "BOOST",
+            "signal": "intake_map",
+            "trigger": "above",
+            "threshold": 210,
+            "color": "#ffa726"
+          }
+        ]
+      }
+    },
+    {
+      "id": "tach",
+      "type": "circular",
+      "signal": "engine_rpm",
+      "grid": { "col": 0, "row": 1, "colspan": 4, "rowspan": 3 },
+      "config": {
+        "label": "RPM",
+        "min": 0, "max": 5000,
+        "start_angle": 135, "sweep_angle": 270,
+        "major_ticks": 10, "minor_ticks": 5,
+        "zones": [
+          { "min": 0,    "max": 3500, "color": "#00e676" },
+          { "min": 3500, "max": 4500, "color": "#ffa726" },
+          { "min": 4500, "max": 5000, "color": "#ef5350" }
+        ]
+      }
+    },
+    {
+      "id": "speedo",
+      "type": "circular",
+      "signal": "vehicle_speed",
+      "grid": { "col": 4, "row": 1, "colspan": 4, "rowspan": 3 },
+      "config": {
+        "label": "MPH",
+        "min": 0, "max": 120,
+        "start_angle": 135, "sweep_angle": 270,
+        "major_ticks": 12, "minor_ticks": 4,
+        "unit_conversion": 0.621371,
+        "zones": [
+          { "min": 0,   "max": 80,  "color": "#00e676" },
+          { "min": 80,  "max": 100, "color": "#ffa726" },
+          { "min": 100, "max": 120, "color": "#ef5350" }
+        ]
+      }
+    },
+    {
+      "id": "gear",
+      "type": "numeric",
+      "signal": "trans_current_gear_label",
+      "grid": { "col": 8, "row": 1, "colspan": 2, "rowspan": 2 },
+      "config": {
+        "label": "GEAR",
+        "font_size_ratio": 0.5,
+        "color": "#e0e0e0"
+      }
+    },
+    {
+      "id": "shift_mode",
+      "type": "numeric",
+      "signal": "trans_shift_mode_label",
+      "grid": { "col": 10, "row": 1, "colspan": 2, "rowspan": 2 },
+      "config": {
+        "label": "MODE",
+        "font_size_ratio": 0.4,
+        "color": "#90caf9"
+      }
+    },
+    {
+      "id": "battery",
+      "type": "numeric",
+      "signal": "battery_voltage",
+      "grid": { "col": 8, "row": 3, "colspan": 2, "rowspan": 1 },
+      "config": {
+        "label": "BATT",
+        "unit": "V",
+        "decimals": 1,
+        "font_size_ratio": 0.35,
+        "thresholds": [
+          { "max": 11.8, "color": "#ef5350" },
+          { "max": 12.4, "color": "#ffa726" },
+          { "max": 99,   "color": "#00e676" }
+        ]
+      }
+    },
+    {
+      "id": "tcc_status",
+      "type": "numeric",
+      "signal": "trans_tcc_lockup",
+      "grid": { "col": 10, "row": 3, "colspan": 2, "rowspan": 1 },
+      "config": {
+        "label": "TCC",
+        "font_size_ratio": 0.35,
+        "value_map": { "0": "OPEN", "1": "LOCK" },
+        "color_map": { "0": "#ffa726", "1": "#00e676" }
+      }
+    },
+    {
+      "id": "coolant_temp",
+      "type": "bar",
+      "signal": "coolant_temp",
+      "grid": { "col": 0, "row": 4, "colspan": 3, "rowspan": 3 },
+      "config": {
+        "label": "COOLANT",
+        "unit": "°C",
+        "min": 40, "max": 120,
+        "orientation": "vertical",
+        "zones": [
+          { "min": 40,  "max": 75,  "color": "#4fc3f7" },
+          { "min": 75,  "max": 100, "color": "#00e676" },
+          { "min": 100, "max": 110, "color": "#ffa726" },
+          { "min": 110, "max": 120, "color": "#ef5350" }
+        ]
+      }
+    },
+    {
+      "id": "boost",
+      "type": "bar",
+      "signal": "intake_map",
+      "grid": { "col": 3, "row": 4, "colspan": 3, "rowspan": 3 },
+      "config": {
+        "label": "BOOST",
+        "unit": "kPa",
+        "min": 0, "max": 250,
+        "orientation": "vertical",
+        "zones": [
+          { "min": 0,   "max": 101, "color": "#4fc3f7" },
+          { "min": 101, "max": 200, "color": "#00e676" },
+          { "min": 200, "max": 250, "color": "#ffa726" }
+        ]
+      }
+    },
+    {
+      "id": "trans_temp",
+      "type": "bar",
+      "signal": "trans_temp",
+      "grid": { "col": 6, "row": 4, "colspan": 3, "rowspan": 3 },
+      "config": {
+        "label": "TRANS",
+        "unit": "°C",
+        "min": 40, "max": 130,
+        "orientation": "vertical",
+        "zones": [
+          { "min": 40,  "max": 60,  "color": "#4fc3f7" },
+          { "min": 60,  "max": 100, "color": "#00e676" },
+          { "min": 100, "max": 115, "color": "#ffa726" },
+          { "min": 115, "max": 130, "color": "#ef5350" }
+        ]
+      }
+    },
+    {
+      "id": "fuel_level",
+      "type": "bar",
+      "signal": "fuel_level",
+      "grid": { "col": 9, "row": 4, "colspan": 3, "rowspan": 3 },
+      "config": {
+        "label": "FUEL",
+        "unit": "%",
+        "min": 0, "max": 100,
+        "orientation": "vertical",
+        "zones": [
+          { "min": 0,  "max": 15, "color": "#ef5350" },
+          { "min": 15, "max": 30, "color": "#ffa726" },
+          { "min": 30, "max": 100,"color": "#00e676" }
+        ]
+      }
+    },
+    {
+      "id": "odometer",
+      "type": "numeric",
+      "signal": "odometer",
+      "grid": { "col": 0, "row": 7, "colspan": 6, "rowspan": 1 },
+      "config": {
+        "label": "ODO",
+        "unit": "mi",
+        "decimals": 1,
+        "font_size_ratio": 0.35,
+        "color": "#e0e0e0"
+      }
+    },
+    {
+      "id": "trip",
+      "type": "numeric",
+      "signal": "trip",
+      "grid": { "col": 6, "row": 7, "colspan": 6, "rowspan": 1 },
+      "config": {
+        "label": "TRIP",
+        "unit": "mi",
+        "decimals": 1,
+        "font_size_ratio": 0.35,
+        "color": "#b0bec5"
+      }
+    }
+  ]
+}

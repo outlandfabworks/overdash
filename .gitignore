@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Runtime data (generated at startup, not for version control)
+data/auth_token.txt
+data/odometer.json
+data/*.tmp
+
+# Logs
+*.log
+
+# KiCad autosave / backups
+hardware/**/*-backups/
+hardware/**/_autosave-*
+hardware/**/*.lck
+hardware/**/*.bak
+
+# OS
+.DS_Store
+Thumbs.db

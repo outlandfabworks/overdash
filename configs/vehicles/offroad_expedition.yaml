@@ -1,0 +1,66 @@
+# Off-road / expedition build
+# Combines OBD-II data, GPS, and analog sensors (wideband, EGT, etc.)
+
+server:
+  host: "0.0.0.0"
+  port: 8765
+  http_port: 8080
+  broadcast_hz: 20
+
+sources:
+  # Engine data via ELM327
+  - type: elm327
+    name: "Engine ECU"
+    connection: serial
+    port: /dev/ttyUSB0
+    baud: 38400
+
+  # GPS — position, speed, altitude, heading
+  - type: gps_nmea
+    name: "GPS"
+    port: /dev/ttyAMA0   # Pi UART (u-blox NEO-6M or similar)
+    baud: 9600
+
+  # Analog sensors via MCP3208 ADC on expansion HAT
+  - type: analog_adc
+    name: "Analog Sensors"
+    chip: mcp3208
+    spi_bus: 0
+    spi_device: 0
+    vref: 5.0
+    poll_rate_hz: 10
+    channels:
+      - channel: 0
+        signal: wideband_lambda
+        label: Wideband O2
+        unit: λ
+        v_min: 0.0
+        v_max: 5.0
+        value_min: 0.68    # Innovate LC-2 / AEM UEGO output range
+        value_max: 1.36
+        decimals: 3
+
+      - channel: 1
+        signal: egt_celsius
+        label: Exhaust Gas Temp
+        unit: °C
+        v_min: 0.0
+        v_max: 5.0
+        value_min: 0
+        value_max: 1200
+        decimals: 0
+
+      - channel: 2
+        signal: boost_kpa
+        label: Boost Pressure
+        unit: kPa
+        v_min: 0.5
+        v_max: 4.5
+        value_min: 0
+        value_max: 300
+        decimals: 1
+
+  # Warning light inputs via optocoupler HAT
+  - type: gpio_inputs
+    name: "Input HAT"
+    poll_rate_hz: 30

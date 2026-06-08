@@ -1,0 +1,31 @@
+# Generic OBD-II vehicle — works on any car/truck/SUV 1996+
+# Uses an ELM327 USB adapter (most common option)
+#
+# Hardware needed:
+#   - ELM327 USB adapter (~$10) plugged into OBD-II port and Pi USB
+#   - OR ELM327 WiFi adapter: change connection to wifi, set host/port
+#   - OR ELM327 Bluetooth: pair adapter, use /dev/rfcomm0
+#
+# To use WiFi adapter instead:
+#   connection: wifi
+#   host: 192.168.0.10    # default for most WiFi adapters
+#   port: 35000
+
+server:
+  host: "0.0.0.0"
+  port: 8765
+  http_port: 8080
+  broadcast_hz: 10   # OBD-II is slower than CAN — 10 Hz is realistic
+
+sources:
+  - type: elm327
+    name: "OBD-II"
+    connection: serial
+    port: /dev/ttyUSB0
+    baud: 38400
+    # Uncomment to poll only specific PIDs (faster update rate):
+    # pids: [0x05, 0x0C, 0x0D, 0x11, 0x2F, 0x42]
+
+  - type: gpio_inputs
+    name: "Input HAT"
+    poll_rate_hz: 30

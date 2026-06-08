@@ -1,0 +1,71 @@
+# TDI-swapped Land Rover Discovery
+# Engine: VW/Audi TDI (J1939 CAN + OBD-II K-line)
+# Transmission: ZF4HP22EH via CompuShift Sport TCM (CAN)
+# Body/ABS/chassis: second OBD K-line port on /dev/ttyUSB0
+#
+# Serial ports:
+#   /dev/ttyAMA0  — Pi built-in UART → engine ECU K-line
+#   /dev/ttyUSB0  — USB-serial adapter → body/ABS ECU K-line
+# CAN:
+#   can0          — J1939 engine bus + CompuShift TCM (250 kbps)
+
+server:
+  host: "0.0.0.0"
+  port: 8765          # WebSocket
+  http_port: 8080     # HTTP API + frontend
+  broadcast_hz: 30
+
+sources:
+
+  # ── Pi Dash input HAT (turn signals, lights, reverse) ────────────────
+  - type: gpio_inputs
+    name: "Input HAT"
+    poll_rate_hz: 30
+
+  # ── J1939 engine bus (RPM, coolant, oil, speed, battery) ──────────────
+  - type: can_j1939
+    name: "TDI J1939"
+    interface: can0
+    bitrate: 250000
+
+  # ── CompuShift Sport TCM (gear, TCC, trans temp) ──────────────────────
+  - type: can_compushift
+    name: "CompuShift Sport"
+    interface: can0
+    bitrate: 250000
+
+  # ── Engine ECU K-line (boost, intake temps, throttle + engine DTCs) ───
+  - type: obd_kline
+    name: "Engine ECU"
+    port: /dev/ttyAMA0
+    ecu_address: 0x01     # TDI engine ECU address
+    poll_rate_hz: 5
+    poll_dtcs: true
+    dtc_poll_interval_s: 30
+    pids:
+      - 0x04   # engine load
+      - 0x05   # coolant temp
+      - 0x0B   # intake MAP / boost (absolute kPa)
+      - 0x0C   # engine RPM  (fallback if J1939 not available)
+      - 0x0D   # vehicle speed (fallback)
+      - 0x0F   # intake air temp
+      - 0x2F   # fuel level
+
+  # ── Body / ABS / chassis K-line (second OBD port) ─────────────────────
+  # This port monitors the ABS, SRS, and body control modules.
+  # No live PIDs needed — DTC monitoring only.
+  # Uncomment and adjust ecu_address to match your body module.
+  #
+  # Common Land Rover Discovery body ECU addresses:
+  #   0x28  — ABS/ETC module
+  #   0x18  — SRS / airbag module
+  #   0x20  — Body Control Module (BCM)
+  #
+  - type: obd_kline
+    name: "Body/ABS ECU"
+    port: /dev/ttyUSB0
+    ecu_address: 0x28     # ABS module — adjust if needed
+    poll_rate_hz: 1       # slow poll, DTCs only
+    poll_dtcs: true
+    dtc_poll_interval_s: 15
+    pids: []              # no live PIDs from body ECU

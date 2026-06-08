@@ -1,0 +1,27 @@
+[Unit]
+Description=Pi Dash — vehicle dashboard backend
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/pi-dash
+ExecStart=/home/pi/pi-dash/.venv/bin/python -m backend.main configs/vehicles/tdi_discovery.yaml
+Restart=on-failure
+RestartSec=5
+WatchdogSec=30
+NotifyAccess=none
+
+# Restart up to 10 times in 5 minutes; if it keeps crashing, stop
+StartLimitIntervalSec=300
+StartLimitBurst=10
+
+# Give the service up to 10 seconds to stop cleanly
+TimeoutStopSec=10
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=pi-dash
+
+[Install]
+WantedBy=multi-user.target

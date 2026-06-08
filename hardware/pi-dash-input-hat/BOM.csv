@@ -1,0 +1,20 @@
+Qty,Reference,Value,Description,Package,LCSC/Notes
+1,C1,220µF/35V,Electrolytic capacitor 220µF 35V,Radial D8mm P3.5mm,C59461
+1,C2,220µF/10V,Electrolytic capacitor 220µF 10V,Radial D8mm P3.5mm,C59241
+8,D1-D8,SMAJ15A,TVS diode 15V unidirectional,SMA (DO-214AC),C460778
+1,D17,SMAJ36A,TVS diode 36V unidirectional,SMA (DO-214AC),C460792
+1,D18,SB360,Schottky diode 3A 60V,DO-201AD,C35722
+9,D9-D16 D19,LED Green,3mm green LED Vf~2.2V 20mA,LED THT 3mm,C99777
+1,F1,2.5A Polyfuse,Resettable polyfuse 2.5A hold / 5A trip,1812 SMD,C17874
+6,H1-H6,M2.5,Mounting hole M2.5 — hardware only,2.7mm drill,—
+1,J1,9-pin connector,1x9 2.54mm pitch pin header (male),Through-hole 2.54mm,C124413
+1,J2,2x20 female socket,2x20 2.54mm female socket for Pi GPIO,Through-hole 2.54mm,C2337224
+1,J3,Phoenix 5.08mm 2-pin,Screw terminal 2-pin 5.08mm pitch,Through-hole,C395828
+1,J4,2x5 pin header,2x5 2.54mm pitch pin header (male) — sensor connector,Through-hole 2.54mm,C5665
+1,L1,100µH/3A,Radial inductor 100µH 3A,Radial,C408499
+1,Q1,DMG2305UX,P-channel MOSFET 20V 4A,SOT-23,C112735
+8,R1-R8,560Ω,Resistor 560 ohm 1% 125mW,0805 SMD,C17733
+8,R9-R16,10kΩ,Resistor 10k ohm 1% 125mW,0805 SMD,C17414
+9,R17-R25,1kΩ,Resistor 1k ohm 1% 125mW,0805 SMD,C17513
+8,U1-U8,PC817,Optocoupler single channel 35V CTR>50%,DIP-4,C9022
+1,U9,LM2596-5.0,Buck converter 5V fixed 3A,TO-220-5,C347568

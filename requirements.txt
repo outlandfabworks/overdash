@@ -1,0 +1,18 @@
+# Core
+python-can>=4.3
+websockets>=12.0
+pyserial>=3.5
+pyserial-asyncio>=0.6
+pyyaml>=6.0
+aiohttp>=3.9
+
+# GPS parsing (gps_nmea source)
+# pynmea2>=1.19        # optional — source uses manual parsing if not available
+
+# ADC chips (analog_adc source)
+# spidev>=3.6          # MCP3208/3204/3008 — install on Pi: pip install spidev
+# smbus2>=0.4          # ADS1115 I2C — install on Pi: pip install smbus2
+
+# NOTE: RPi.GPIO is pre-installed on Raspberry Pi OS.
+# spidev and smbus2 are only needed if you use the analog_adc source.
+# All new sources fall back to mock/simulated data if hardware is unavailable.

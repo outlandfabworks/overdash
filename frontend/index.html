@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Pi Dash</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" id="theme-stylesheet" href="css/themes/dark.css">
+  <link rel="stylesheet" href="editor/editor.css">
+  <link rel="stylesheet" href="css/dtc_panel.css">
+  <link rel="stylesheet" href="css/settings_panel.css">
+</head>
+<body>
+  <div id="dash-root"></div>
+  <div id="status-bar">
+    <span id="ws-status" class="status-disconnected">OFFLINE</span>
+    <span id="source-health"></span>
+    <span id="vehicle-name"></span>
+    <span id="clock"></span>
+  </div>
+
+  <!-- Auth token injected by the backend at serve time -->
+  <meta name="pidash-token" content="__PIDASH_TOKEN__">
+
+  <script type="module">
+    import { WSClient }      from './js/ws_client.js';
+    import { API_TOKEN }     from './js/auth.js';
+    import { LayoutManager } from './js/layout.js';
+    import { GaugeRegistry } from './js/gauge_registry.js';
+    import { CircularGauge } from './js/gauges/circular.js';
+    import { BarGauge }      from './js/gauges/bar.js';
+    import { NumericGauge }  from './js/gauges/numeric.js';
+    import { LightsGauge }     from './js/gauges/lights.js';
+    import { IndicatorGauge }  from './js/gauges/indicator.js';
+    import { DTCPanel }      from './js/dtc_panel.js';
+    import { SettingsPanel } from './js/settings_panel.js';
+    import { Editor }        from './editor/editor.js';
+
+    GaugeRegistry.register('circular', CircularGauge);
+    GaugeRegistry.register('bar',      BarGauge);
+    GaugeRegistry.register('numeric',  NumericGauge);
+    GaugeRegistry.register('lights',    LightsGauge);
+    GaugeRegistry.register('indicator', IndicatorGauge);
+
+    await document.fonts.ready;
+
+    const params     = new URLSearchParams(location.search);
+    const layoutName = params.get('layout') ?? 'tdi_discovery';
+    const wsUrl      = params.get('ws')     ?? `ws://${location.hostname}:8765`;
+    const apiBase    = params.get('api')    ?? `http://${location.hostname}:8080`;
+
+    let layout;
+    try {
+      const res = await fetch(`${apiBase}/api/layout/${layoutName}`);
+      layout = await res.json();
+    } catch {
+      layout = await fetch(`configs/layouts/${layoutName}.json`).then(r => r.json());
+    }
+
+    const themeLink = document.getElementById('theme-stylesheet');
+    themeLink.href  = `css/themes/${layout.meta?.theme ?? 'dark'}.css`;
+    if (layout.meta?.bg_color) {
+      document.documentElement.style.setProperty('--bg', layout.meta.bg_color);
+    }
+    document.getElementById('vehicle-name').textContent = layout.meta?.name ?? '';
+
+    const root    = document.getElementById('dash-root');
+    const manager = new LayoutManager(root, layout);
+    manager.build();
+
+    // DTC panel — listens for 'pidash:show-dtcs' events from LightsGauge clicks
+    const dtcPanel      = new DTCPanel();
+    const settingsPanel = new SettingsPanel(apiBase);
+
+    const editor = new Editor(layout, manager, layoutName, apiBase);
+
+    // Append token to WS URL so the backend can authenticate the connection
+    const wsUrlAuth = `${wsUrl}?token=${encodeURIComponent(API_TOKEN)}`;
+    const ws = new WSClient(wsUrlAuth);
+    // ── Source health display ─────────────────────────────────────────────────
+    const sourceHealthEl = document.getElementById('source-health');
+    const sourceStatus   = {};   // name → true/false
+    const simStatus      = {};   // name → true/false  (persists between updates)
+
+    function updateSourceHealth(signals) {
+      let healthChanged = false;
+      let simChanged    = false;
+
+      for (const [key, entry] of Object.entries(signals)) {
+        const val = typeof entry === 'object' ? entry.value : entry;
+
+        if (key.startsWith('_src_')) {
+          const name = key.slice(5).replace(/_/g, ' ');
+          const ok   = !!val;
+          if (sourceStatus[name] !== ok) { sourceStatus[name] = ok; healthChanged = true; }
+        }
+
+        if (key.startsWith('_sim_')) {
+          const name = key.slice(5).replace(/_/g, ' ');
+          const on   = !!val;
+          if (simStatus[name] !== on) { simStatus[name] = on; simChanged = true; }
+        }
+      }
+
+      if (healthChanged) {
+        sourceHealthEl.innerHTML = Object.entries(sourceStatus)
+          .map(([name, ok]) =>
+            `<span class="src-dot ${ok ? 'src-ok' : 'src-err'}" title="${name}: ${ok ? 'OK' : 'ERROR'}">●</span>`)
+          .join('');
+      }
+
+      if (simChanged) {
+        const anySim    = Object.values(simStatus).some(Boolean);
+        const watermark = document.getElementById('sim-watermark');
+        if (anySim && !watermark) {
+          const w = document.createElement('div');
+          w.id = 'sim-watermark';
+          w.textContent = 'SIMULATION MODE';
+          document.body.appendChild(w);
+        } else if (!anySim && watermark) {
+          watermark.remove();
+        }
+      }
+    }
+
+    ws.onSignals = (signals) => {
+      manager.update(signals);
+      dtcPanel.ingestSignals(signals);
+      settingsPanel.ingestSignals(signals);
+      updateSourceHealth(signals);
+    };
+    ws.onStatusChange = (connected) => {
+      const el = document.getElementById('ws-status');
+      el.textContent = connected ? 'LIVE' : 'OFFLINE';
+      el.className   = connected ? 'status-connected' : 'status-disconnected';
+      // When the whole connection drops, dim everything
+      if (!connected) {
+        document.getElementById('dash-root').classList.add('ws-offline');
+      } else {
+        document.getElementById('dash-root').classList.remove('ws-offline');
+      }
+    };
+    ws.onStale = (signal) => manager.markStale(signal, true);
+    ws.onFresh = (signal) => manager.markStale(signal, false);
+    ws.connect();
+
+    setInterval(() => {
+      document.getElementById('clock').textContent =
+        new Date().toLocaleTimeString('en-US', { hour12: false });
+    }, 1000);
+
+    // First-launch hint — shows once until dismissed, never again
+    if (!localStorage.getItem('pidash_hint_seen')) {
+      setTimeout(() => {
+        const hints = [
+          { sel: '#settings-btn',   text: '⚙  Tap here for settings\n(odometer, trip, GPIO inputs)' },
+          { sel: '#edit-toggle-btn', text: '✏  Tap here to enter\nedit mode and customise the layout' },
+        ];
+        hints.forEach(({ sel, text }) => {
+          const target = document.querySelector(sel);
+          if (!target) return;
+          const r   = target.getBoundingClientRect();
+          const tip = document.createElement('div');
+          tip.style.cssText = `
+            position:fixed; z-index:9999;
+            background:#1e2030; color:#e0e0e0;
+            border:1px solid rgba(255,255,255,0.18);
+            border-radius:8px; padding:10px 14px;
+            font-family:'Rajdhani',monospace; font-size:13px;
+            line-height:1.45; white-space:pre;
+            box-shadow:0 4px 20px rgba(0,0,0,0.6);
+            pointer-events:none;
+            animation: hint-fade 0.3s ease;
+          `;
+          tip.textContent = text;
+          document.body.appendChild(tip);
+          // Position above the target
+          const tw = tip.offsetWidth, th = tip.offsetHeight;
+          tip.style.left = `${Math.max(4, r.left + r.width/2 - tw/2)}px`;
+          tip.style.top  = `${r.top - th - 10}px`;
+          setTimeout(() => tip.remove(), 5000);
+        });
+        localStorage.setItem('pidash_hint_seen', '1');
+      }, 1200);
+    }
+  </script>
+  <style>
+    @keyframes hint-fade { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+  </style>
+</body>
+</html>

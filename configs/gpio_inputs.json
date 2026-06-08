@@ -1,0 +1,12 @@
+{
+  "inputs": [
+    { "gpio": 4,  "signal": "left_turn",      "label": "Left Turn Signal" },
+    { "gpio": 17, "signal": "right_turn",     "label": "Right Turn Signal" },
+    { "gpio": 27, "signal": "high_beam",      "label": "High Beam" },
+    { "gpio": 22, "signal": "parking_lights", "label": "Parking Lights" },
+    { "gpio": 5,  "signal": "hazards",        "label": "Hazard Lights" },
+    { "gpio": 6,  "signal": "reverse",        "label": "Reverse" },
+    { "gpio": 13, "signal": "illumination",   "label": "Illumination" },
+    { "gpio": 19, "signal": "speed_pulse",    "label": "Speed Pulse" }
+  ]
+}

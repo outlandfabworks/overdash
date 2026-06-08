@@ -1,0 +1,6 @@
+(version 1)
+
+# PCBWay standard fab constraints — overrides KiCad defaults
+(rule "edge_clearance"
+  (constraint edge_clearance (min 0.2mm))
+)

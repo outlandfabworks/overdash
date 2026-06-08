@@ -1,0 +1,19 @@
+# Modern vehicle (2008+) with CAN-based OBD-II
+# Uses direct CAN interface — no ELM327 needed
+# Try 500 kbps first; if no response, try 250 kbps
+
+server:
+  host: "0.0.0.0"
+  port: 8765
+  http_port: 8080
+  broadcast_hz: 20
+
+sources:
+  - type: can_obd
+    name: "CAN OBD-II"
+    interface: can0
+    bitrate: 500000   # most post-2008 vehicles; try 250000 if no response
+
+  - type: gpio_inputs
+    name: "Input HAT"
+    poll_rate_hz: 30
