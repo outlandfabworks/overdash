@@ -1,22 +1,22 @@
 # Pi Dash
 
-Open-source digital dashboard for Raspberry Pi. Most commercial Pi-based dash solutions lock you into a single ECU brand and require paid third-party software licenses. Pi Dash doesn't — it speaks **J1939 CAN, OBD-II K-line, ELM327, CAN OBD, GPS, and GPIO** natively, so it works with engine swaps, custom builds, and vehicles that commercial options simply don't support.
+Open-source digital dashboard for Raspberry Pi. Most commercial Pi-based dash solutions lock you into a single ECU brand and require paid third-party software licenses. Pi Dash doesn't: it speaks **J1939 CAN, OBD-II K-line, ELM327, CAN OBD, GPS, and GPIO** natively, so it works with engine swaps, custom builds, and vehicles that commercial options simply don't support.
 
-A Python async backend reads from any combination of those sources simultaneously and streams everything over WebSocket to a Chromium kiosk frontend. Gauges are rendered on canvas, and the layout is fully editable in-browser with a visual no-code editor — no paid software required.
+A Python async backend reads from any combination of those sources simultaneously and streams everything over WebSocket to a Chromium kiosk frontend. Gauges are rendered on canvas, and the layout is fully editable in-browser with a visual no-code editor. No paid software required.
 
-Built for a TDI-swapped Land Rover Discovery (J1939 engine + CompuShift Sport TCM + ZF4HP22EH), but config-driven — no code changes needed to adapt it to another vehicle.
+Built for a TDI-swapped Land Rover Discovery (J1939 engine + CompuShift Sport TCM + ZF4HP22EH), but config-driven; no code changes needed to adapt it to another vehicle.
 
 ---
 
 ## Features
 
-- **Multiple data sources** — J1939 CAN, CompuShift TCM, OBD-II (K-line and ELM327), CAN OBD, GPS (NMEA), analog ADC, frequency counter, GPIO inputs, and a mock source for development without hardware
-- **Visual no-code layout editor** — drag to move, resize handles, properties panel for zones/thresholds/colors, gauge palette, theme picker, save to server or export JSON
-- **Gauge types** — circular sweep (tach, speedo), vertical/horizontal bar, large numeric with value mapping, indicator lights, warning light strip with DTC panel
-- **DTC monitoring** — Mode 03 (stored) + Mode 07 (pending) codes, MIL status, tap any active warning light to open the fault code panel
-- **Odometer** — integrates vehicle speed into a persisted lifetime total and resettable trip counter
-- **PWA** — add to home screen on a tablet for fullscreen landscape kiosk mode
-- **Auth-protected HTTP API** — layout save/load, signal snapshot, trip reset, odometer set, per-source simulation mode
+- **Multiple data sources**: J1939 CAN, CompuShift TCM, OBD-II (K-line and ELM327), CAN OBD, GPS (NMEA), analog ADC, frequency counter, GPIO inputs, and a mock source for development without hardware
+- **Visual no-code layout editor**: drag to move, resize handles, properties panel for zones/thresholds/colors, gauge palette, theme picker, save to server or export JSON
+- **Gauge types**: circular sweep (tach, speedo), vertical/horizontal bar, large numeric with value mapping, indicator lights, warning light strip with DTC panel
+- **DTC monitoring**: Mode 03 (stored) + Mode 07 (pending) codes, MIL status, tap any active warning light to open the fault code panel
+- **Odometer**: integrates vehicle speed into a persisted lifetime total and resettable trip counter
+- **PWA**: add to home screen on a tablet for fullscreen landscape kiosk mode
+- **Auth-protected HTTP API**: layout save/load, signal snapshot, trip reset, odometer set, per-source simulation mode
 
 ---
 
@@ -45,7 +45,7 @@ For full installation on a Raspberry Pi (CAN setup, systemd service, Chromium ki
 
 ```
 backend/
-  main.py                     Entry point — wires sources, processors, servers
+  main.py                     Entry point: wires sources, processors, servers
   data_bus.py                 In-memory signal store with asyncio pub/sub
   config.py                   YAML loader
   sources/
@@ -67,7 +67,7 @@ backend/
     http_api.py               HTTP API + frontend file serving (port 8080)
 
 frontend/
-  index.html                  Shell — loads layout, connects WebSocket
+  index.html                  Shell: loads layout, connects WebSocket
   manifest.json               PWA manifest (fullscreen, landscape)
   js/
     ws_client.js              WebSocket client with auto-reconnect
@@ -94,11 +94,11 @@ frontend/
 
 configs/
   vehicles/
-    tdi_discovery.yaml        TDI Land Rover — J1939 + CompuShift + K-line
-    generic_modern.yaml       Modern petrol/diesel — ELM327 or CAN OBD
-    generic_obd2.yaml         Older OBD-II vehicle — K-line only
+    tdi_discovery.yaml        TDI Land Rover: J1939 + CompuShift + K-line
+    generic_modern.yaml       Modern petrol/diesel: ELM327 or CAN OBD
+    generic_obd2.yaml         Older OBD-II vehicle: K-line only
     offroad_expedition.yaml   Off-road build with GPS + ADC sensors
-    mock.yaml                 Mock source — no hardware needed
+    mock.yaml                 Mock source: no hardware needed
   layouts/
     tdi_discovery.json        Default layout for the TDI Discovery
 
@@ -140,13 +140,13 @@ Hardware  →  Source._read_loop()  →  DataBus.publish(name, value, unit)
 
 ---
 
-## TDI Discovery — signal reference
+## TDI Discovery: signal reference
 
 | Signal | Source | Notes |
 |--------|--------|-------|
 | `engine_rpm` | J1939 PGN 61444 SPN 190 | EEC1 |
 | `coolant_temp` | J1939 PGN 65262 | ET1 |
-| `intake_map` | K-line PID 0x0B | Absolute kPa — doubles as boost |
+| `intake_map` | K-line PID 0x0B | Absolute kPa (doubles as boost) |
 | `vehicle_speed` | J1939 PGN 65265 | CCVS1 |
 | `trans_current_gear_label` | CompuShift CAN 0x3E0 | P/R/N/D/3/2/1 |
 | `trans_tcc_lockup` | CompuShift CAN 0x3E0 | 0 = open, 1 = locked |
@@ -170,4 +170,4 @@ Override via `messages:` in the vehicle YAML if your TCM uses different IDs.
 
 ## License
 
-MIT — see [LICENSE](LICENSE). Third-party license notices in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
+MIT. See [LICENSE](LICENSE). Third-party license notices in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
