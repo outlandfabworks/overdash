@@ -1,8 +1,10 @@
 # Pi Dash
 
-Modular digital dashboard for Raspberry Pi. A Python async backend reads data from CAN bus, OBD-II, GPS, and GPIO, then streams it over WebSocket to a Chromium kiosk frontend with canvas-rendered gauges.
+Open-source digital dashboard for Raspberry Pi. Most commercial Pi-based dash solutions lock you into a single ECU brand and require paid third-party software licenses. Pi Dash doesn't — it speaks **J1939 CAN, OBD-II K-line, ELM327, CAN OBD, GPS, and GPIO** natively, so it works with engine swaps, custom builds, and vehicles that commercial options simply don't support.
 
-Built for a TDI-swapped Land Rover Discovery (J1939 engine + CompuShift Sport TCM + ZF4HP22EH), but fully config-driven — no code changes needed to adapt it to another vehicle.
+A Python async backend reads from any combination of those sources simultaneously and streams everything over WebSocket to a Chromium kiosk frontend. Gauges are rendered on canvas, and the layout is fully editable in-browser with a visual no-code editor — no paid software required.
+
+Built for a TDI-swapped Land Rover Discovery (J1939 engine + CompuShift Sport TCM + ZF4HP22EH), but config-driven — no code changes needed to adapt it to another vehicle.
 
 ---
 
