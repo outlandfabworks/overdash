@@ -10,7 +10,7 @@ Built for a TDI-swapped Land Rover Discovery (J1939 engine + CompuShift Sport TC
 
 ## Features
 
-- **Multiple data sources**: J1939 CAN, CompuShift TCM, OBD-II (K-line and ELM327), CAN OBD, GPS (NMEA), analog ADC, frequency counter, GPIO inputs, and a mock source for development without hardware
+- **Multiple data sources**: J1939 CAN, CompuShift TCM, OBD-II (K-line and ELM327), CAN OBD, Megasquirt/Speeduino USB serial, GPS (NMEA), analog ADC, frequency counter, GPIO inputs, and a mock source for development without hardware
 - **Visual no-code layout editor**: drag to move, resize handles, properties panel for zones/thresholds/colors, gauge palette, theme picker, save to server or export JSON
 - **Gauge types**: circular sweep (tach, speedo), vertical/horizontal bar, large numeric with value mapping, indicator lights, warning light strip with DTC panel
 - **DTC monitoring**: Mode 03 (stored) + Mode 07 (pending) codes, MIL status, tap any active warning light to open the fault code panel
@@ -55,6 +55,7 @@ backend/
     can_obd.py                OBD-II over CAN (ISO 15765-4)
     obd_kline.py              ISO 9141-2 / KWP2000 K-line poller
     elm327.py                 ELM327 USB/Bluetooth OBD adapter
+    megasquirt.py             Megasquirt 1/2/3 and Speeduino USB serial
     gps_nmea.py               GPS via NMEA serial stream
     analog_adc.py             Analog voltage/sensor via SPI ADC (MCP3xxx)
     frequency_counter.py      RPM/frequency via GPIO pulse counting

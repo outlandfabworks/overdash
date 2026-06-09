@@ -21,6 +21,7 @@ from backend.sources.gpio_inputs import GPIOInputSource
 from backend.sources.gps_nmea import GPSNMEASource
 from backend.sources.analog_adc import AnalogADCSource
 from backend.sources.frequency_counter import FrequencyCounterSource
+from backend.sources.megasquirt import MegasquirtSource
 from backend.sources.mock_vehicle import MockVehicleSource
 from backend.server.websocket import WebSocketServer
 from backend.server.http_api import run_server as run_http, _load_or_create_token
@@ -40,6 +41,8 @@ _SOURCE_TYPES = {
     "analog_adc":       AnalogADCSource,
     "frequency_counter":FrequencyCounterSource,
     "gpio_inputs":      GPIOInputSource,
+    # Megasquirt / Speeduino
+    "megasquirt":       MegasquirtSource,
     # Testing
     "mock_vehicle":     MockVehicleSource,
 }
