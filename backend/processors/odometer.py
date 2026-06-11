@@ -13,6 +13,7 @@ Persists to <project_root>/data/odometer.json every 100 m and on trip reset.
 import asyncio
 import json
 import logging
+import time
 from pathlib import Path
 
 log = logging.getLogger("odometer")
