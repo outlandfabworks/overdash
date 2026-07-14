@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Launch Pi Dash in Chromium kiosk mode.
+# Launch Overdash in Chromium kiosk mode.
 # Expects the backend to be running (or started separately via systemd).
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

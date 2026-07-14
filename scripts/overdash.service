@@ -1,12 +1,12 @@
 [Unit]
-Description=Pi Dash — vehicle dashboard backend
+Description=Overdash vehicle dashboard backend
 After=network.target
 
 [Service]
 Type=simple
 User=pi
-WorkingDirectory=/home/pi/pi-dash
-ExecStart=/home/pi/pi-dash/.venv/bin/python -m backend.main configs/vehicles/tdi_discovery.yaml
+WorkingDirectory=/home/pi/overdash
+ExecStart=/home/pi/overdash/.venv/bin/python -m backend.main configs/vehicles/tdi_discovery.yaml
 Restart=on-failure
 RestartSec=5
 WatchdogSec=30
@@ -21,7 +21,7 @@ TimeoutStopSec=10
 
 StandardOutput=journal
 StandardError=journal
-SyslogIdentifier=pi-dash
+SyslogIdentifier=overdash
 
 [Install]
 WantedBy=multi-user.target

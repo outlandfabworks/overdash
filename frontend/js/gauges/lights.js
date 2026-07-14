@@ -145,7 +145,7 @@ export class LightsGauge extends BaseGauge {
     const i    = row * cols + col;
 
     if (i >= 0 && i < lights.length && this._isActive(lights[i])) {
-      document.dispatchEvent(new CustomEvent('pidash:show-dtcs', {
+      document.dispatchEvent(new CustomEvent('overdash:show-dtcs', {
         detail: { trigger: lights[i].id },
       }));
     }

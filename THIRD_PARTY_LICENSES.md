@@ -1,6 +1,6 @@
 # Third-Party License Notices
 
-Pi Dash uses the following open-source packages. Their licenses are reproduced
+Overdash uses the following open-source packages. Their licenses are reproduced
 below or linked for reference.
 
 ## python-can — LGPL-3.0
@@ -8,7 +8,7 @@ below or linked for reference.
 Copyright (c) 2010–2024 The python-can authors
 
 This library is licensed under the **GNU Lesser General Public License v3.0**.
-Pi Dash uses python-can as an unmodified library linked at runtime. Under the
+Overdash uses python-can as an unmodified library linked at runtime. Under the
 LGPL, you are free to use this project under its MIT license. If you modify
 python-can itself, those modifications must be distributed under LGPL-3.0.
 

@@ -7,7 +7,7 @@
 - Python 3.11+
 - CAN bus interface (e.g. PiCAN2, Waveshare CAN HAT) for J1939/CompuShift data
 - USB-to-serial adapter or UART for K-line OBD-II
-- Pi Dash Input HAT (optional) for GPIO warning light inputs
+- Overdash Input HAT (optional) for GPIO warning light inputs
 
 ## ⚠️ Safety — Read First
 
@@ -22,8 +22,8 @@ Before you install, read [LEGAL.md](LEGAL.md) in full. Key points:
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/pi-dash.git
-cd pi-dash
+git clone https://github.com/yourusername/overdash.git
+cd overdash
 
 # Create a virtual environment and install dependencies
 python3 -m venv .venv
@@ -46,9 +46,9 @@ sudo bash scripts/install-service.sh
 ```
 
 This installs a systemd service that:
-- Starts Pi Dash automatically at boot
+- Starts Overdash automatically at boot
 - Restarts it within 5 seconds if it crashes
-- Logs to the system journal (`sudo journalctl -u pi-dash -f`)
+- Logs to the system journal (`sudo journalctl -u overdash -f`)
 
 ## CAN Bus Setup (Raspberry Pi)
 
@@ -82,7 +82,7 @@ Vehicle configs live in `configs/vehicles/`. Layout configs live in
 
 | Problem | Fix |
 |---------|-----|
-| Dashboard shows OFFLINE | Check that the backend service is running: `sudo systemctl status pi-dash` |
-| Gauges show STALE | A data source (CAN, K-line, GPIO) has stopped responding — check wiring and `journalctl -u pi-dash` |
+| Dashboard shows OFFLINE | Check that the backend service is running: `sudo systemctl status overdash` |
+| Gauges show STALE | A data source (CAN, K-line, GPIO) has stopped responding — check wiring and `journalctl -u overdash` |
 | CAN bus not working | Ensure `can0` is up: `ip link show can0` |
 | Permission denied on serial port | Add your user to the `dialout` group: `sudo usermod -aG dialout pi` |

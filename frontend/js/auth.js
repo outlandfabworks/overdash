@@ -2,7 +2,7 @@
  * auth.js — shared auth token helper.
  *
  * The backend injects the token into the served index.html as:
- *   <meta name="pidash-token" content="<token>">
+ *   <meta name="overdash-token" content="<token>">
  *
  * All mutating API calls (PUT, POST) must include:
  *   Authorization: Bearer <token>
@@ -12,7 +12,7 @@
  *   await authFetch('/api/reset_trip', { method: 'POST' });
  */
 
-export const API_TOKEN = document.querySelector('meta[name="pidash-token"]')
+export const API_TOKEN = document.querySelector('meta[name="overdash-token"]')
   ?.getAttribute('content') ?? '';
 
 /** Returns headers object with Authorization set. */

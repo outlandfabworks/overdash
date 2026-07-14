@@ -20,7 +20,7 @@ export class IndicatorGauge extends BaseGauge {
     // Single click handler registered once — checks active state at click time
     this._canvas.addEventListener('click', () => {
       if (this._active && this._cfg.id) {
-        document.dispatchEvent(new CustomEvent('pidash:show-dtcs', {
+        document.dispatchEvent(new CustomEvent('overdash:show-dtcs', {
           detail: { trigger: this._cfg.id },
         }));
       }

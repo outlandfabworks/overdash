@@ -1,5 +1,5 @@
 """
-Pi Dash — backend entry point.
+Overdash — backend entry point.
 
 Usage:
     python -m backend.main configs/vehicles/tdi_discovery.yaml
@@ -89,7 +89,7 @@ async def _run(config_path: str) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Pi Dash backend")
+    parser = argparse.ArgumentParser(description="Overdash backend")
     parser.add_argument("config", help="Vehicle config YAML path")
     parser.add_argument("--log-level", default="INFO")
     args = parser.parse_args()

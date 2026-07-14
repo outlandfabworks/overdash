@@ -2,7 +2,7 @@
  * DTCPanel — bottom-sheet overlay that shows active DTC codes.
  *
  * Opens when:
- *   - User taps an active warning light (LightsGauge fires 'pidash:show-dtcs')
+ *   - User taps an active warning light (LightsGauge fires 'overdash:show-dtcs')
  *   - Programmatically via panel.show()
  *
  * Data comes from the 'dtc_list' signal published by the backend's DTC
@@ -129,7 +129,7 @@ export class DTCPanel {
     document.body.appendChild(this._panel);
 
     // Listen for clicks on active lights
-    document.addEventListener('pidash:show-dtcs', () => this.show());
+    document.addEventListener('overdash:show-dtcs', () => this.show());
   }
 
   /** Called by LayoutManager.update() when dtc_list signal arrives. */

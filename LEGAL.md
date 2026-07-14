@@ -2,14 +2,14 @@
 
 ## ⚠️ Safety Warning — Read Before Use
 
-Pi Dash is an **informational display only**. It does not control, modify, or
+Overdash is an **informational display only**. It does not control, modify, or
 replace any vehicle safety system.
 
 - **Do not interact with this display while driving.** Configure the layout
   and settings before driving. Operating any touchscreen while the vehicle is
   in motion is dangerous and may be illegal in your jurisdiction.
 - The accuracy of displayed data depends entirely on your vehicle's sensors and
-  wiring. Pi Dash does not validate the correctness of any signal.
+  wiring. Overdash does not validate the correctness of any signal.
 - **Stale or incorrect data may be displayed** if a hardware source disconnects
   or malfunctions. Never make driving decisions based solely on this display.
 - This software is provided for personal use, off-road use, and track use.
@@ -39,7 +39,7 @@ technician if you are unsure.
 
 ## FCC / CE Notice (Hardware)
 
-If you use a Pi Dash input HAT or any associated hardware:
+If you use a Overdash input HAT or any associated hardware:
 - Ensure the hardware carries appropriate certification for your region
   (FCC ID for the US, CE marking for the EU, IC for Canada, etc.)
 - Uncertified electronic devices may not legally be sold or used in some
@@ -60,7 +60,7 @@ This project uses the following third-party software:
 
 `python-can` is licensed under LGPL-3.0. Under the terms of the LGPL, any
 modifications to `python-can` itself must be made available under LGPL-3.0.
-Pi Dash itself is licensed under the MIT License.
+Overdash itself is licensed under the MIT License.
 
 Full license texts for all dependencies can be found in your Python virtual
 environment under `.venv/lib/pythonX.X/site-packages/`.

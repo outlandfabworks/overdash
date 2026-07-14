@@ -1,5 +1,5 @@
 /**
- * WSClient — WebSocket connection to the Pi Dash backend.
+ * WSClient — WebSocket connection to the Overdash backend.
  *
  * Tracks signal freshness using local receive time (Date.now()), NOT the
  * server's wall-clock timestamp. This avoids false stale detections when the

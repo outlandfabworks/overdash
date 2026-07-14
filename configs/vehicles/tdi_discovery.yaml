@@ -17,7 +17,7 @@ server:
 
 sources:
 
-  # ── Pi Dash input HAT (turn signals, lights, reverse) ────────────────
+  # ── Overdash Input HAT (turn signals, lights, reverse) ────────────────
   - type: gpio_inputs
     name: "Input HAT"
     poll_rate_hz: 30

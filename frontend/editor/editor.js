@@ -476,7 +476,7 @@ export class Editor {
   }
 
   async _fetchSignals() {
-    const CACHE_KEY = 'pidash_signals';
+    const CACHE_KEY = 'overdash_signals';
     try {
       const res = await fetch(`${this._apiBase}/api/signals`);
       if (!res.ok) throw new Error('bad response');

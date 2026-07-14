@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Pi Dash — Raspberry Pi setup script
+# Overdash — Raspberry Pi setup script
 # Tested on Raspberry Pi OS (Bullseye/Bookworm), 64-bit
 set -e
 
@@ -42,10 +42,10 @@ python3 -m venv "$PROJECT_DIR/.venv"
 "$PROJECT_DIR/.venv/bin/pip" install --upgrade pip
 "$PROJECT_DIR/.venv/bin/pip" install -r "$PROJECT_DIR/requirements.txt"
 
-echo "==> Installing systemd service: pi-dash-backend"
-sudo tee /etc/systemd/system/pi-dash-backend.service > /dev/null <<EOF
+echo "==> Installing systemd service: overdash-backend"
+sudo tee /etc/systemd/system/overdash-backend.service > /dev/null <<EOF
 [Unit]
-Description=Pi Dash Backend
+Description=Overdash Backend
 After=network.target
 
 [Service]
@@ -59,12 +59,12 @@ User=$(whoami)
 WantedBy=multi-user.target
 EOF
 
-echo "==> Installing systemd service: pi-dash-kiosk"
-sudo tee /etc/systemd/system/pi-dash-kiosk.service > /dev/null <<EOF
+echo "==> Installing systemd service: overdash-kiosk"
+sudo tee /etc/systemd/system/overdash-kiosk.service > /dev/null <<EOF
 [Unit]
-Description=Pi Dash Kiosk (Chromium)
-After=pi-dash-backend.service graphical.target
-Requires=pi-dash-backend.service
+Description=Overdash Kiosk (Chromium)
+After=overdash-backend.service graphical.target
+Requires=overdash-backend.service
 
 [Service]
 Environment=DISPLAY=:0
@@ -78,9 +78,9 @@ WantedBy=graphical.target
 EOF
 
 sudo systemctl daemon-reload
-sudo systemctl enable pi-dash-backend pi-dash-kiosk
+sudo systemctl enable overdash-backend overdash-kiosk
 
 echo ""
 echo "Done. Reboot to start automatically, or run:"
-echo "  sudo systemctl start pi-dash-backend"
-echo "  sudo systemctl start pi-dash-kiosk"
+echo "  sudo systemctl start overdash-backend"
+echo "  sudo systemctl start overdash-kiosk"

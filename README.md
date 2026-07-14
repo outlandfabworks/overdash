@@ -1,6 +1,6 @@
-# Pi Dash
+# Overdash
 
-Open-source digital dashboard for Raspberry Pi. Most commercial Pi-based dash solutions lock you into a single ECU brand and require paid third-party software licenses. Pi Dash doesn't: it speaks **J1939 CAN, OBD-II K-line, ELM327, CAN OBD, GPS, and GPIO** natively, so it works with engine swaps, custom builds, and vehicles that commercial options simply don't support.
+Open-source digital dashboard for Raspberry Pi. Most commercial Pi-based dash solutions lock you into a single ECU brand and require paid third-party software licenses. Overdash doesn't: it speaks **J1939 CAN, OBD-II K-line, ELM327, CAN OBD, GPS, and GPIO** natively, so it works with engine swaps, custom builds, and vehicles that commercial options simply don't support.
 
 A Python async backend reads from any combination of those sources simultaneously and streams everything over WebSocket to a Chromium kiosk frontend. Gauges are rendered on canvas, and the layout is fully editable in-browser with a visual no-code editor. No paid software required.
 
@@ -24,8 +24,8 @@ Built for a TDI-swapped Land Rover Discovery (J1939 engine + CompuShift Sport TC
 
 ```bash
 # Clone
-git clone https://github.com/outlandfabworks/pi-dash.git
-cd pi-dash
+git clone https://github.com/outlandfabworks/overdash.git
+cd overdash
 
 # Create a virtual environment and install dependencies
 python3 -m venv .venv
@@ -59,7 +59,7 @@ backend/
     gps_nmea.py               GPS via NMEA serial stream
     analog_adc.py             Analog voltage/sensor via SPI ADC (MCP3xxx)
     frequency_counter.py      RPM/frequency via GPIO pulse counting
-    gpio_inputs.py            Pi Dash Input HAT (turn signals, lights, reverse)
+    gpio_inputs.py            Overdash Input HAT (turn signals, lights, reverse)
     mock_vehicle.py           Simulated signals for dev/testing
   processors/
     odometer.py               Integrates vehicle_speed → odometer + trip signals
@@ -104,7 +104,7 @@ configs/
     tdi_discovery.json        Default layout for the TDI Discovery
 
 hardware/
-  pi-dash-input-hat/          KiCad schematic and PCB for the GPIO input HAT
+  overdash-input-hat/          KiCad schematic and PCB for the GPIO input HAT
 ```
 
 ---
