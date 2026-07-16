@@ -22,7 +22,7 @@ Before you install, read [LEGAL.md](LEGAL.md) in full. Key points:
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/overdash.git
+git clone https://github.com/outlandfabworks/overdash.git
 cd overdash
 
 # Create a virtual environment and install dependencies
