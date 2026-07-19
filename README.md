@@ -6,6 +6,8 @@ A Python async backend reads from any combination of those sources simultaneousl
 
 Built for a TDI-swapped Land Rover Discovery (J1939 engine + CompuShift Sport TCM + ZF4HP22EH), but config-driven; no code changes needed to adapt it to another vehicle.
 
+![Overdash dashboard screenshot](docs/screenshot.png)
+
 ---
 
 ## Features
