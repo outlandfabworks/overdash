@@ -1,0 +1,97 @@
+# Megasquirt / Speeduino build
+# Covers MS2 (MS2Extra firmware), MS3, MS3Pro, and Speeduino (all variants).
+#
+# The megasquirt source uses the MS Serial protocol: send 'A', receive a
+# binary real-time data block. This is the same wire protocol TunerStudio
+# uses, so any ECU that works with TunerStudio will work here.
+#
+# Connection:
+#   ECU USB port → Pi USB port → appears as /dev/ttyUSB0 (or ttyUSB1, ttyACM0)
+#   Run `ls /dev/ttyUSB* /dev/ttyACM*` after plugging in to find yours.
+#
+# Signals published by this source:
+#   engine_rpm        rpm
+#   coolant_temp      °C
+#   intake_temp       °C    (manifold air temp)
+#   intake_map        kPa   (manifold absolute pressure / boost ref)
+#   baro_pressure     kPa   (MS2Extra / MS3 only)
+#   throttle_pos      %
+#   battery_voltage   V
+#   afr               :1    (wide-band AFR if WBO2 is wired to ECU)
+#   ignition_advance  °
+#   engine_load       %     (volumetric efficiency)
+#   vehicle_speed     km/h  (Speeduino only, if VSS configured in ECU)
+#   fuel_pressure     kPa   (Speeduino only, if sensor fitted)
+#   oil_pressure      kPa   (Speeduino only, if sensor fitted)
+
+server:
+  host: "0.0.0.0"
+  port: 8765
+  http_port: 8080
+  broadcast_hz: 30
+
+sources:
+
+  # ── Megasquirt / Speeduino ECU (USB serial) ───────────────────────────────
+  - type: megasquirt
+    name: "ECU"
+    port: /dev/ttyUSB0        # adjust if your device appears elsewhere
+    firmware: ms2extra        # ms1 | ms2extra | ms3 | speeduino
+    poll_hz: 10
+
+  # ── Speeduino variant — change firmware and baud if using Speeduino ───────
+  # - type: megasquirt
+  #   name: "ECU"
+  #   port: /dev/ttyACM0      # Speeduino (Arduino) usually appears as ttyACM0
+  #   firmware: speeduino
+  #   baud: 115200
+  #   poll_hz: 10
+
+  # ── MS1 variant (older builds, 9600 baud) ─────────────────────────────────
+  # - type: megasquirt
+  #   name: "ECU"
+  #   port: /dev/ttyUSB0
+  #   firmware: ms1
+  #   baud: 9600
+  #   poll_hz: 5
+
+  # ── GPS (optional) ────────────────────────────────────────────────────────
+  # Publishes: gps_speed (km/h), gps_lat, gps_lon, gps_altitude (m),
+  #            gps_heading (°), gps_satellites, gps_fix (0/1)
+  #
+  # - type: gps_nmea
+  #   name: "GPS"
+  #   port: /dev/ttyAMA0      # Pi built-in UART (disable serial console first)
+  #   baud: 9600
+
+  # ── Wideband O2 via analog input (optional) ───────────────────────────────
+  # Use this if your wideband controller (Innovate LC-2, AEM X-Series,
+  # PLX Devices, etc.) outputs a 0–5 V analog signal rather than wiring
+  # its serial output into the ECU's WBO2 input.
+  # Requires an MCP3208 or ADS1115 ADC connected to the Pi.
+  #
+  # Common output voltage ranges (configure to match your controller):
+  #   Innovate LC-2 / MTX-L:   0–5 V = 7.35–22.39 AFR (gasoline)
+  #   AEM X-Series UEGO:        0–5 V = 7.35–22.39 AFR
+  #   PLX SM-AFR:               0–5 V = 10.0–20.0 AFR
+  #
+  # - type: analog_adc
+  #   name: "Wideband"
+  #   chip: mcp3208
+  #   channels:
+  #     - channel: 0
+  #       signal: afr
+  #       unit: ":1"
+  #       voltage_min: 0.0
+  #       voltage_max: 5.0
+  #       value_min: 7.35
+  #       value_max: 22.39
+  #       decimals: 2
+
+  # ── Overdash Input HAT (optional) ─────────────────────────────────────────
+  # Reads turn signals, headlights, reverse from 12V vehicle wiring.
+  # Remove or comment out if you don't have the HAT fitted.
+  #
+  # - type: gpio_inputs
+  #   name: "Input HAT"
+  #   poll_rate_hz: 30
