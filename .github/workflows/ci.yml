@@ -29,3 +29,5 @@ jobs:
 
       - name: Import check
         run: python .github/scripts/check_imports.py
+        env:
+          PYTHONPATH: ${{ github.workspace }}
